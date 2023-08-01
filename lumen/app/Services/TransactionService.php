@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\DataTransactionStatusEnum;
+use App\Enums\StatusCodeTypeEnum;
 use Illuminate\Http\Request;
 
 class TransactionService
@@ -22,6 +24,37 @@ class TransactionService
             $combinedData = array_merge($combinedData, $jsonData);
         }
         return $combinedData;
+    }
+
+    // return all data with search statusCode in all json files like(/api/v1/transactions?statusCode=auth)
+
+    public function statusCode($status, $data): \Illuminate\Http\JsonResponse|array
+    {
+        $searchResults = [];
+        $statusValues = array();
+        if ($status == StatusCodeTypeEnum::AUTHORIZED->value) {
+            $statusValues = array(
+                DataTransactionStatusEnum::AUTHORIZED->value
+            );
+        } elseif ($status == StatusCodeTypeEnum::DECLINE->value) {
+            $statusValues = array(
+                DataTransactionStatusEnum::DECLINE->value
+            );
+        } elseif($status == StatusCodeTypeEnum::REFUNDED->value) {
+            $statusValues = array(
+                DataTransactionStatusEnum::REFUNDED->value
+            );
+        } else {
+            return response()->json('No data is available for this search');
+        }
+
+        foreach ($data['transactions'] as $item) {
+            if (array_key_exists('statusCode', $item)  && in_array($item['statusCode'], $statusValues)) {
+
+                $searchResults[] = $item;
+            }
+        }
+        return $searchResults;
     }
 }
 

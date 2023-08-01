@@ -18,10 +18,13 @@ class UserTransactionController extends Controller
     public function userTransactions(Request $request): \Illuminate\Http\JsonResponse
     {
         $data = $this->transactionService->readProviders();
+        if ($request->query('statusCode')) {
+            $data =  $this->transactionService->statusCode($request->query('statusCode'), $data);
+        }
         if ($data) {
             return response()->json($data);
         } else {
-            return response()->json('No data is available for this research');
+            return response()->json('No data is available for this search');
         }
     }
 }
