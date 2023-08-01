@@ -1,7 +1,7 @@
 version: '3'
 
 networks:
-  luman:
+  lumen:
 
 services:
   nginx:
@@ -10,13 +10,13 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ../luman:/var/www/html
+      - ../lumen:/var/www/html
       - ./nginx/conf.d/app.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
       - mysql
     networks:
-      - luman
+      - lumen
 
 
   mysql:
@@ -36,7 +36,7 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     networks:
-      - luman
+      - lumen
 
   php:
     build:
@@ -49,5 +49,5 @@ services:
     ports:
       - "9000:9000"
     networks:
-      - luman
+      - lumen
 
