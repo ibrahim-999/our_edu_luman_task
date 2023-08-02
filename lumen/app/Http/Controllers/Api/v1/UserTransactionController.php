@@ -25,6 +25,9 @@ class UserTransactionController extends Controller
 
             $data = $this->transactionService->currency($request->query('currency'), $data);
         }
+        if ($request->query('amounteMin') && $request->query('amounteMin')) {
+        $data =  $this->transactionService->amountRange($request, $data);
+        }
         if ($data) {
             return response()->json($data);
         } else {

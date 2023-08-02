@@ -65,6 +65,18 @@ class TransactionService
             );
         });
     }
+
+    // return all data with search amountRange in all json files like(/api/v1/transactions?amounteMin=10&amounteMax=100 iwith including 10 and 100.)
+    public function amountRange(Request $request, $data): array
+    {
+
+        $results = array_filter($data['transactions'], function ($item) use ($request) {
+            return (
+                (array_key_exists('paidAmount', $item) && $item['paidAmount'] >= $request->amounteMin && $item['paidAmount'] <= $request->amounteMax)
+            );
+        });
+        return $results;
+    }
 }
 
 if(!function_exists('public_path'))
