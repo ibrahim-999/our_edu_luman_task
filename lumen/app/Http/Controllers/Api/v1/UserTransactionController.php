@@ -21,6 +21,10 @@ class UserTransactionController extends Controller
         if ($request->query('statusCode')) {
             $data =  $this->transactionService->statusCode($request->query('statusCode'), $data);
         }
+        if ($request->query('currency')) {
+
+            $data = $this->transactionService->currency($request->query('currency'), $data);
+        }
         if ($data) {
             return response()->json($data);
         } else {

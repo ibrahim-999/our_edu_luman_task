@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\DataTransactionStatusEnum;
 use App\Enums\StatusCodeTypeEnum;
 use Illuminate\Http\Request;
+use JetBrains\PhpStorm\NoReturn;
 
 class TransactionService
 {
@@ -27,7 +28,6 @@ class TransactionService
     }
 
     // return all data with search statusCode in all json files like(/api/v1/transactions?statusCode=auth)
-
     public function statusCode($status, $data): \Illuminate\Http\JsonResponse|array
     {
         $searchResults = [];
@@ -55,6 +55,15 @@ class TransactionService
             }
         }
         return $searchResults;
+    }
+
+    // return all data with search amountRange in all json files like( /api/v1/transactions?currency=EGP)
+    #[NoReturn] public function currency($search, $data): array
+    {
+        return array_filter($data['transactions'], function ($item) use ($search) {
+            return (array_key_exists('Currency', $item) && $item['Currency'] == $search
+            );
+        });
     }
 }
 
