@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\DataTransactionStatusEnum;
 use App\Enums\StatusCodeTypeEnum;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use JetBrains\PhpStorm\NoReturn;
 
@@ -72,7 +73,23 @@ class TransactionService
 
         $results = array_filter($data['transactions'], function ($item) use ($request) {
             return (
-                (array_key_exists('paidAmount', $item) && $item['paidAmount'] >= $request->amounteMin && $item['paidAmount'] <= $request->amounteMax)
+                (
+                    array_key_exists('paidAmount', $item) && $item['paidAmount'] >= $request->amounteMin && $item['paidAmount'] <= $request->amounteMax)
+            );
+        });
+        return $results;
+    }
+
+    // return all data with search amountRange in all json files like(/api/v1/transactions?startDate=2021-11-30&endDate=2022-09-07
+    public function dateRange(Request $request, $data): array
+    {
+
+        $results = array_filter($data['transactions'], function ($item) use ($request) {
+            return (
+            (
+                array_key_exists('paymentDate', $item) &&
+                $item['paymentDate'] >= Carbon::createFromFormat('Y-m-d',$request->startDate) &&
+                $item['paymentDate'] <= Carbon::createFromFormat('Y-m-d',$request->endDate))
             );
         });
         return $results;
