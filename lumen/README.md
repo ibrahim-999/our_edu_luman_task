@@ -1,26 +1,76 @@
-# Lumen PHP Framework
+# User Transactions
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/lumen)](https://packagist.org/packages/laravel/lumen-framework)
+## Task Description
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+We have two providers that collect data from them in json files. We need to read them then
+insert them into the relation database schema and make some filter operations on them to get
+the result.
+You can check the json files inside jsons folder
+1. users.json
+2. transactions.json
+   we have three status for transactions
+- authorized which will have statusCode 1
+- decline which will have statusCode 2
+- refunded which will have statusCode 3
 
-> **Note:** In the years since releasing Lumen, PHP has made a variety of wonderful performance improvements. For this reason, along with the availability of [Laravel Octane](https://laravel.com/docs/octane), we no longer recommend that you begin new projects with Lumen. Instead, we recommend always beginning new projects with [Laravel](https://laravel.com).
+## Prerequisite
+- PHP 8.1
+- laravel/lumen-framework 10.0
+- Mysql for database
 
-## Official Documentation
+## Installation
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+### Step 1.
+- Begin by cloning this repository to your machine
+```
+git clone `repo url` 
+```
 
-## Contributing
+- Install dependencies
+```
+composer install
+```
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Create environmental file and variables
+```
+cp .env.example .env
+```
 
-## Security Vulnerabilities
+- Generate app key
+```
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+### Step 2
+- Next, create a new database and reference its name and username/password in the project's .env file.
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=database_name
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
 
-## License
+### Step 3
+- To start the server, run the command below
+```
+php -S localhost:8000 -t public
+```
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Application Route
+```
+http://127.0.0.1:8000
+```
+
+## Task Expectations
+
+Implement this APIs should contain :-
+- list all users which combine transactions from all the available provider and database
+- should be able to filter the result three statusCode (authorized, decline, refunded)
+- should be able to filter the result three Currency
+- it should be able to filter by amount range
+- it should be able to filter by date range
+
+## Author
+- ibrahim khalaf
